@@ -528,7 +528,11 @@ blockquote { font-style: italic; }
   gap: 0.4rem;
 }
 
-.stat-number {
+.stat-number,
+.stat-number-1,
+.stat-number-2,
+.stat-number-3,
+.stat-number-4 {
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 4vw, 3rem);
   font-weight: 800;
@@ -1950,215 +1954,147 @@ blockquote { font-style: italic; }
   transform: translateY(-2px);
 }
 
-/* ── NovAds Hero Ad Section ── */
+/* ── NovAds Hero Ad Section — 3D Spinning Nike Shoe ── */
 
 /* Section wrapper */
 .hero-ad-section {
   position: relative;
   width: 100%;
   background: #080810;
-  padding: 80px 20px;
+  padding: 100px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
 }
 
-/* Floating card wrapper */
-.hero-ad-card-wrapper {
-  perspective: 1200px;
-  width: 700px;
-  max-width: 90vw;
-  display: flex;
-  justify-content: center;
-  animation: heroAdFloat 4s ease-in-out infinite;
-}
-
-@keyframes heroAdFloat {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-18px); }
-}
-
-/* The card itself */
-.hero-ad-card {
+/* Float wrapper — handles vertical float so rotation is unaffected */
+.shoe-float-wrapper {
   position: relative;
-  width: 700px;
-  max-width: 90vw;
-  height: 420px;
-  transform-style: preserve-3d;
-  transform: perspective(1200px) rotateX(0deg) rotateY(0deg);
-  transition: transform 0.1s ease;
-  animation: heroAdRotate 6s ease-in-out infinite;
-  border-radius: var(--radius-md);
-  box-shadow:
-    0 0 60px rgba(255, 80, 0, 0.25),
-    0 0 120px rgba(255, 45, 0, 0.12);
-}
-
-@keyframes heroAdRotate {
-  0%, 100% { transform: perspective(1200px) rotateY(0deg) rotateX(2deg); }
-  50%       { transform: perspective(1200px) rotateY(8deg) rotateX(-2deg); }
-}
-
-.hero-ad-card:hover {
-  animation-play-state: paused;
-  box-shadow:
-    0 0 80px rgba(255, 80, 0, 0.4),
-    0 0 160px rgba(255, 45, 0, 0.2);
-}
-
-/* Card face */
-.hero-ad-card-face {
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius-md);
-  background: linear-gradient(135deg, #1a0000 0%, #8B0000 40%, #FF2D00 100%);
-  border: 1px solid rgba(255, 80, 0, 0.4);
-  box-shadow: inset 0 0 60px rgba(255, 45, 0, 0.1);
-  overflow: hidden;
-  padding: 28px 36px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  backface-visibility: hidden;
-}
-
-/* Left 3D edge */
-.hero-ad-card-face::before {
-  content: '';
-  position: absolute;
-  top: 4px;
-  left: -20px;
-  width: 20px;
-  height: calc(100% - 8px);
-  background: #5a0000;
-  transform: rotateY(-90deg) translateZ(-10px);
-  transform-origin: right center;
-  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
-}
-
-/* Bottom 3D edge */
-.hero-ad-card-face::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 4px;
-  width: calc(100% - 8px);
-  height: 10px;
-  background: #3a0000;
-  transform: rotateX(-90deg) translateZ(-5px);
-  transform-origin: top center;
-  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
-}
-
-/* Giant Nike swoosh watermark */
-.ad-swoosh {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-20deg);
-  font-size: 400px;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.06);
-  font-weight: 900;
-  pointer-events: none;
-  user-select: none;
-  filter: blur(2px);
-}
-
-/* Top labels */
-.ad-label-top-left {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 4px;
-  color: rgba(255, 255, 255, 0.7);
-  text-transform: uppercase;
-  z-index: 1;
-}
-
-.ad-label-top-right {
-  position: absolute;
-  top: 28px;
-  right: 36px;
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: rgba(255, 255, 255, 0.4);
-  text-transform: uppercase;
-  z-index: 1;
-}
-
-/* Main headline */
-.ad-headline {
-  position: absolute;
-  top: 50%;
-  left: 36px;
-  transform: translateY(-55%);
-  z-index: 1;
-  line-height: 0.9;
-}
-
-.ad-headline-line1 {
-  display: block;
-  font-family: var(--font-display);
-  font-size: clamp(3.5rem, 8vw, 5.5rem);
-  font-weight: 800;
-  letter-spacing: -2px;
-  color: #ffffff;
-}
-
-.ad-headline-line2 {
-  display: block;
-  font-family: var(--font-display);
-  font-size: clamp(3.5rem, 8vw, 5.5rem);
-  font-weight: 800;
-  letter-spacing: -2px;
-  background: linear-gradient(90deg, #FF2D00, #FF8C00);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Subline */
-.ad-subline {
-  position: absolute;
-  bottom: 70px;
-  left: 36px;
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.6);
-  letter-spacing: 2px;
-  z-index: 1;
-}
-
-/* Card footer row */
-.ad-footer {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  z-index: 1;
+  animation: shoefloat 3s ease-in-out infinite;
 }
 
-.ad-brand-name {
-  font-weight: 900;
-  font-size: 1.4rem;
-  letter-spacing: 8px;
-  color: #ffffff;
-  text-transform: uppercase;
+/* 3D shoe container — rotates the shoe */
+.shoe-3d-wrapper {
+  width: 300px;
+  height: 200px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rotateshoe 6s linear infinite;
 }
 
-.ad-campaign-tag {
-  font-size: 0.7rem;
-  letter-spacing: 2px;
-  color: rgba(255, 255, 255, 0.75);
-  text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding: 6px 14px;
-  border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+.shoe-3d-wrapper:hover {
+  animation-play-state: paused;
 }
 
-/* Glowing particle dots */
+@keyframes rotateshoe {
+  0%   { transform: perspective(800px) rotateY(0deg) rotateX(15deg); }
+  100% { transform: perspective(800px) rotateY(360deg) rotateX(15deg); }
+}
+
+@keyframes shoefloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-20px); }
+}
+
+/* Shoe sole */
+.shoe-sole {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 280px;
+  height: 60px;
+  background: linear-gradient(180deg, #333 0%, #111 100%);
+  border-radius: 40% 40% 30% 30% / 10% 10% 5% 5%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  border-bottom: 8px solid #fff;
+}
+
+/* Shoe upper */
+.shoe-upper {
+  position: absolute;
+  bottom: 45px;
+  left: 20px;
+  width: 260px;
+  height: 130px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #111 100%);
+  border-radius: 30% 60% 20% 10% / 50% 50% 20% 20%;
+  overflow: hidden;
+}
+
+/* Diagonal swoosh stripe on upper */
+.shoe-swoosh-stripe {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  width: 140px;
+  height: 20px;
+  background: #FF2D00;
+  opacity: 0.9;
+  transform: translateY(-50%) rotate(-15deg);
+  border-radius: 0 50% 50% 0;
+}
+
+/* Shoe tongue */
+.shoe-tongue {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 50px;
+  background: #222;
+  border-radius: 8px 8px 0 0;
+}
+
+/* Laces area */
+.shoe-laces {
+  position: absolute;
+  top: 20px;
+  left: 55px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shoe-lace {
+  width: 60px;
+  height: 3px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 2px;
+}
+
+/* Nike swoosh on side */
+.shoe-swoosh {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 40px;
+  background: #FF2D00;
+  clip-path: polygon(0% 50%, 20% 20%, 100% 0%, 80% 80%, 10% 100%);
+}
+
+/* Glowing platform beneath the shoe */
+.shoe-glow-platform {
+  width: 320px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,45,0,0.3) 0%, transparent 70%);
+  margin-top: 10px;
+  animation: glowpulse 3s ease-in-out infinite;
+}
+
+@keyframes glowpulse {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.8; }
+}
+
+/* Particle dots */
 .hero-ad-particles {
   position: absolute;
   inset: 0;
@@ -2168,40 +2104,16 @@ blockquote { font-style: italic; }
 .ad-particle {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 80, 0, 0.6);
+  background: rgba(255, 45, 0, 0.7);
   filter: blur(2px);
 }
 
-.ad-particle-1 {
-  width: 5px; height: 5px;
-  top: 15%; left: 10%;
-  animation: particleFloat1 3.5s ease-in-out infinite;
-}
-.ad-particle-2 {
-  width: 4px; height: 4px;
-  top: 25%; right: 12%;
-  animation: particleFloat2 4.2s ease-in-out infinite 0.6s;
-}
-.ad-particle-3 {
-  width: 6px; height: 6px;
-  bottom: 20%; left: 8%;
-  animation: particleFloat1 5s ease-in-out infinite 1.2s;
-}
-.ad-particle-4 {
-  width: 4px; height: 4px;
-  bottom: 30%; right: 8%;
-  animation: particleFloat2 3.8s ease-in-out infinite 0.3s;
-}
-.ad-particle-5 {
-  width: 5px; height: 5px;
-  top: 60%; left: 5%;
-  animation: particleFloat1 4.6s ease-in-out infinite 0.9s;
-}
-.ad-particle-6 {
-  width: 4px; height: 4px;
-  top: 40%; right: 5%;
-  animation: particleFloat2 3.2s ease-in-out infinite 1.5s;
-}
+.ad-particle-1 { width: 5px; height: 5px; top: 15%; left: 10%;  animation: particleFloat1 3.5s ease-in-out infinite; }
+.ad-particle-2 { width: 4px; height: 4px; top: 25%; right: 12%; animation: particleFloat2 4.2s ease-in-out infinite 0.6s; }
+.ad-particle-3 { width: 6px; height: 6px; bottom: 20%; left: 8%;  animation: particleFloat1 5s ease-in-out infinite 1.2s; }
+.ad-particle-4 { width: 4px; height: 4px; bottom: 30%; right: 8%; animation: particleFloat2 3.8s ease-in-out infinite 0.3s; }
+.ad-particle-5 { width: 5px; height: 5px; top: 60%; left: 5%;    animation: particleFloat1 4.6s ease-in-out infinite 0.9s; }
+.ad-particle-6 { width: 4px; height: 4px; top: 40%; right: 5%;   animation: particleFloat2 3.2s ease-in-out infinite 1.5s; }
 
 @keyframes particleFloat1 {
   0%, 100% { transform: translateY(0px) scale(1); opacity: 0.6; }
@@ -2212,7 +2124,7 @@ blockquote { font-style: italic; }
   50%       { transform: translateY(10px) scale(0.8); opacity: 0.9; }
 }
 
-/* Caption below the card */
+/* Caption below the shoe */
 .hero-ad-caption {
   text-align: center;
   margin-top: 48px;
@@ -2225,7 +2137,7 @@ blockquote { font-style: italic; }
 .hero-ad-label {
   font-size: 11px;
   letter-spacing: 6px;
-  color: var(--color-muted);
+  color: #888899;
   text-transform: uppercase;
   font-weight: 600;
 }
@@ -2238,9 +2150,9 @@ blockquote { font-style: italic; }
 }
 
 .hero-ad-sub {
-  color: var(--color-muted);
+  color: #888899;
   max-width: 480px;
-  margin: 0 auto;
+  margin: 12px auto 0;
   font-size: 1rem;
   line-height: 1.6;
 }
@@ -2248,70 +2160,42 @@ blockquote { font-style: italic; }
 /* CTA button */
 .btn-hero-ad-cta {
   display: inline-block;
-  margin-top: 8px;
+  margin-top: 32px;
   padding: 14px 32px;
   background: transparent;
   color: #ffffff;
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 1px;
-  border: 1px solid var(--color-primary);
-  border-radius: var(--radius-xl);
+  border: 1px solid #7B5EA7;
+  border-radius: 999px;
   cursor: pointer;
-  transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
-  position: relative;
-}
-
-.btn-hero-ad-cta::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: var(--radius-xl);
-  padding: 1px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 20px rgba(123,94,167,0.3);
+  text-decoration: none;
 }
 
 .btn-hero-ad-cta:hover {
-  box-shadow: 0 0 24px rgba(123, 94, 167, 0.5);
-  transform: translateY(-2px);
+  background: #7B5EA7;
+  box-shadow: 0 0 40px rgba(123,94,167,0.6);
 }
 
 /* Mobile responsive */
 @media (max-width: 640px) {
-  .hero-ad-card,
-  .hero-ad-card-wrapper {
-    width: 90vw;
-    height: auto;
-    min-height: 260px;
+  .hero-ad-section {
+    padding: 60px 20px;
   }
 
-  .hero-ad-card-face {
-    padding: 20px 22px;
-  }
-
-  .ad-label-top-right {
-    top: 20px;
-    right: 22px;
-  }
-
-  .ad-subline {
-    bottom: 56px;
-    left: 22px;
-    font-size: 0.85rem;
-  }
-
-  .ad-swoosh {
-    font-size: 220px;
+  .shoe-float-wrapper {
+    transform: scale(0.7);
+    transform-origin: center top;
   }
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .hero-ad-card-wrapper { animation: none; }
-  .hero-ad-card { animation: none; }
-  .ad-particle { animation: none; }
+  .shoe-float-wrapper { animation: none; }
+  .shoe-3d-wrapper     { animation: none; }
+  .shoe-glow-platform  { animation: none; }
+  .ad-particle         { animation: none; }
 }
