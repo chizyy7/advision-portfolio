@@ -191,50 +191,45 @@ function initHamburger() {
 
 /* ── 5. STATS COUNT-UP ── */
 function initStatsCountUp() {
-  var statNumbers = document.querySelectorAll('.stat-number[data-target]');
-  if (!statNumbers.length) return;
+  const statsData = [
+    { selector: '.stat-number-1', target: 40,  suffix: '+' },
+    { selector: '.stat-number-2', target: 3,   suffix: 'M+' },
+    { selector: '.stat-number-3', target: 98,  suffix: '%' },
+    { selector: '.stat-number-4', target: 5,   suffix: '' }
+  ];
 
-  var hasAnimated = false;
+  const countUp = (el, target, suffix) => {
+    let count = 0;
+    const duration = 2000;
+    const steps = 60;
+    const increment = target / steps;
+    const timer = setInterval(() => {
+      count += increment;
+      if (count >= target) {
+        count = target;
+        clearInterval(timer);
+      }
+      el.textContent = Math.floor(count) + suffix;
+    }, duration / steps);
+  };
 
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting && !hasAnimated) {
-        hasAnimated = true;
-        statNumbers.forEach(function (el) {
-          animateCount(el);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        statsData.forEach(stat => {
+          const el = document.querySelector(stat.selector);
+          if (el) countUp(el, stat.target, stat.suffix);
         });
         observer.disconnect();
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.3 });
 
-  var statsBar = document.getElementById('stats');
-  if (statsBar) observer.observe(statsBar);
+  const statsSection = document.querySelector('.stats-bar')
+    || document.querySelector('.stats')
+    || document.querySelector('.stats-section');
 
-  function animateCount(el) {
-    var target = parseInt(el.getAttribute('data-target'), 10);
-    var suffix = el.getAttribute('data-suffix') || '';
-    var duration = 1800;
-    var startTime = null;
-
-    function easeOutExpo(t) {
-      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
-    }
-
-    function step(timestamp) {
-      if (!startTime) startTime = timestamp;
-      var elapsed = timestamp - startTime;
-      var progress = Math.min(elapsed / duration, 1);
-      var eased = easeOutExpo(progress);
-      var current = Math.round(eased * target);
-      el.textContent = current + suffix;
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      }
-    }
-
-    requestAnimationFrame(step);
-  }
+  if (statsSection) observer.observe(statsSection);
 }
 
 /* ── 6. 3D TILT EFFECT (shared)
@@ -595,37 +590,25 @@ function debounce(fn, delay) {
   };
 }
 
-// NovAds Hero Ad 3D
-const heroAdCard = document.querySelector('.hero-ad-card');
-const heroAdSection = document.querySelector('.hero-ad-section');
+// NovAds Hero Ad — 3D Shoe Tilt
+const shoeWrapper = document.querySelector('.shoe-3d-wrapper');
+const heroAdSec = document.querySelector('.hero-ad-section');
 
-if (heroAdSection && heroAdCard) {
+if (shoeWrapper && heroAdSec) {
+  const isTouch = () => window.matchMedia('(hover: none)').matches;
 
-  // 3D tilt on mousemove (desktop only)
-  const isTouchDevice = () => window.matchMedia('(hover: none)').matches;
-
-  heroAdSection.addEventListener('mousemove', (e) => {
-    if (isTouchDevice()) return;
-    const rect = heroAdCard.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const rotateX = ((e.clientY - centerY) / (rect.height / 2)) * -20;
-    const rotateY = ((e.clientX - centerX) / (rect.width / 2)) * 20;
-    heroAdCard.style.transform =
-      `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  heroAdSec.addEventListener('mousemove', (e) => {
+    if (isTouch()) return;
+    const rect = shoeWrapper.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const rx = ((e.clientY - cy) / 100) * -15;
+    const ry = ((e.clientX - cx) / 100) * 15;
+    shoeWrapper.style.transform =
+      `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
   });
 
-  heroAdSection.addEventListener('mouseleave', () => {
-    heroAdCard.style.transform =
-      'perspective(1200px) rotateX(0deg) rotateY(0deg)';
-  });
-
-  // Pause float animation on hover, resume on leave
-  heroAdCard.addEventListener('mouseenter', () => {
-    heroAdCard.style.animationPlayState = 'paused';
-  });
-
-  heroAdCard.addEventListener('mouseleave', () => {
-    heroAdCard.style.animationPlayState = 'running';
+  heroAdSec.addEventListener('mouseleave', () => {
+    shoeWrapper.style.transform = '';
   });
 }
