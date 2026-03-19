@@ -1,7 +1,7 @@
 "use strict";
 
 /* ============================================================
-   ADVISION — script.js
+   NovAds — script.js
    All interactive features — no frameworks, no imports
    ============================================================ */
 
@@ -582,4 +582,39 @@ function debounce(fn, delay) {
     var ctx = this;
     timer = setTimeout(function () { fn.apply(ctx, args); }, delay);
   };
+}
+
+// NovAds Hero Ad 3D
+const heroAdCard = document.querySelector('.hero-ad-card');
+const heroAdSection = document.querySelector('.hero-ad-section');
+
+if (heroAdSection && heroAdCard) {
+
+  // 3D tilt on mousemove (desktop only)
+  const isTouchDevice = () => window.matchMedia('(hover: none)').matches;
+
+  heroAdSection.addEventListener('mousemove', (e) => {
+    if (isTouchDevice()) return;
+    const rect = heroAdCard.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const rotateX = ((e.clientY - centerY) / (rect.height / 2)) * -20;
+    const rotateY = ((e.clientX - centerX) / (rect.width / 2)) * 20;
+    heroAdCard.style.transform =
+      `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  });
+
+  heroAdSection.addEventListener('mouseleave', () => {
+    heroAdCard.style.transform =
+      'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+  });
+
+  // Pause float animation on hover, resume on leave
+  heroAdCard.addEventListener('mouseenter', () => {
+    heroAdCard.style.animationPlayState = 'paused';
+  });
+
+  heroAdCard.addEventListener('mouseleave', () => {
+    heroAdCard.style.animationPlayState = 'running';
+  });
 }
