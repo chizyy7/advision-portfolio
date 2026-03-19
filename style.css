@@ -586,6 +586,7 @@ blockquote { font-style: italic; }
 
 .brand-card:hover {
   border-color: var(--brand-color, var(--color-primary));
+  box-shadow: var(--shadow-card), 0 0 40px rgba(123, 94, 167, 0.3); /* fallback for browsers without color-mix() */
   box-shadow: var(--shadow-card), 0 0 40px color-mix(in srgb, var(--brand-color, var(--color-primary)) 30%, transparent);
 }
 
@@ -627,6 +628,7 @@ blockquote { font-style: italic; }
   font-family: var(--font-display);
   font-size: 1.3rem;
   font-weight: 800;
+  background: linear-gradient(135deg, var(--color-text), var(--color-primary)); /* fallback for browsers without color-mix() */
   background: linear-gradient(135deg, var(--color-text), color-mix(in srgb, var(--brand-color, var(--color-primary)) 60%, var(--color-text)));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -655,7 +657,9 @@ blockquote { font-style: italic; }
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--brand-color, var(--color-primary));
+  background: rgba(123, 94, 167, 0.12); /* fallback for browsers without color-mix() */
   background: color-mix(in srgb, var(--brand-color, var(--color-primary)) 12%, transparent);
+  border: 1px solid rgba(123, 94, 167, 0.35); /* fallback for browsers without color-mix() */
   border: 1px solid color-mix(in srgb, var(--brand-color, var(--color-primary)) 35%, transparent);
   padding: 0.3rem 0.75rem;
   border-radius: 100px;

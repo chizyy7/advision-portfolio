@@ -89,10 +89,10 @@ function initNavbar() {
   const sections = [];
 
   navLinks.forEach(function (link) {
-    var id = link.getAttribute('data-section');
-    var el = document.getElementById(id);
-    if (el && !sections.find(function (s) { return s.id === id; })) {
-      sections.push({ id: id, el: el });
+    var sectionId = link.getAttribute('data-section');
+    var el = document.getElementById(sectionId);
+    if (el && !sections.find(function (s) { return s.id === sectionId; })) {
+      sections.push({ id: sectionId, el: el });
     }
   });
 
@@ -231,7 +231,7 @@ function initStatsCountUp() {
    CSS picks up --tilt-x / --tilt-y on the card via a data-tilt selector.
 ── */
 function applyTilt(cards, maxTilt) {
-  maxTilt = maxTilt || 12;
+  maxTilt = maxTilt ?? 12;
   cards.forEach(function (card) {
     // Mark the card so its CSS transform reads the custom props
     card.setAttribute('data-tilt', '');
