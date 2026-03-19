@@ -66,6 +66,17 @@ const portfolioProjects = [
     gradient: 'linear-gradient(135deg,#F97316,#c2410c)',
     strategy:
       'We created a #OwnTheStreet challenge with a custom sound track. The campaign was seeded with 10 anchor influencers who collectively activated 200+ organic creator participants. The challenge spread to 47 cities in 7 days. Earned media value was 10× the paid ad spend. A sold-out collection in 3 days demonstrated the power of identity-driven content — people weren\'t buying a hoodie, they were buying a badge of belonging.'
+  },
+  {
+    title: 'portfolio_2 — Full Stack Digital Showcase',
+    client: 'Personal Project / NovAds Internal',
+    metric: 'Live',
+    metricSub: 'GitHub Pages · Ongoing',
+    tags: ['HTML', 'CSS', 'JS', 'GitHub Pages'],
+    gradient: 'linear-gradient(135deg,#0a0a1a 0%,#1a0533 50%,#2d1b69 100%)',
+    strategy:
+      'A personal full-stack showcase built from scratch with zero frameworks — pure HTML, CSS, and Vanilla JS. Every component was designed pixel-by-pixel, from the 3D card animations to the responsive grid system. Deployed live on GitHub Pages, the project demonstrates end-to-end web development capability, real advertising campaign concepts, and continuous creative direction. Actively maintained and updated with new campaigns and NovAds creative work.',
+    externalLink: 'https://chizyy7.github.io/portfolio_2/'
   }
 ];
 
