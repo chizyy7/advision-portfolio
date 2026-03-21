@@ -89,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function () {
   initServiceCardTilt();
   initPortfolioModal();
   initTestimonialsCarousel();
-  initContactForm();
   initScrollReveal();
 });
 
@@ -440,125 +439,95 @@ function initTestimonialsCarousel() {
 }
 
 /* ── 9. CONTACT FORM ── */
-function initContactForm() {
-  var form      = document.getElementById('contact-form');
-  var submitBtn = document.getElementById('btn-submit');
-  var successEl = document.getElementById('form-success');
+// ===== NOVADS CONTACT FORM =====
+(function() {
+  const form = document.querySelector('#contact-form')
+    || document.querySelector('.contact-form')
+    || document.querySelector('form');
+
   if (!form) return;
 
-  var rules = {
-    'full-name':     { required: true, label: 'Full name' },
-    'company-name':  { required: true, label: 'Company name' },
-    'email':         { required: true, label: 'Email address', email: true },
-    'campaign-type': { required: true, label: 'Campaign type' },
-    'budget':        { required: true, label: 'Budget' },
-    'message':       { required: true, label: 'Message', minLength: 10 }
-  };
+  const N8N_WEBHOOK = 'https://emmanuelchizaramnnadi.app.n8n.cloud/webhook/novads-contact';
 
-  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  function getError(id, value) {
-    var rule = rules[id];
-    if (!rule) return '';
-    if (rule.required && !value.trim()) return rule.label + ' is required.';
-    if (rule.email && value && !EMAIL_RE.test(value)) return 'Please enter a valid email address.';
-    if (rule.minLength && value.trim().length < rule.minLength) {
-      return 'Please enter at least ' + rule.minLength + ' characters.';
-    }
-    return '';
-  }
-
-  function showError(input, msg) {
-    input.classList.add('is-error');
-    var errEl = input.parentElement.querySelector('.form-error');
-    if (errEl) errEl.textContent = msg;
-  }
-
-  function clearError(input) {
-    input.classList.remove('is-error');
-    var errEl = input.parentElement.querySelector('.form-error');
-    if (errEl) errEl.textContent = '';
-  }
-
-  function validateAll() {
-    var valid = true;
-    Object.keys(rules).forEach(function (id) {
-      var input = form.elements[id] || document.getElementById(id);
-      if (!input) return;
-      var err = getError(id, input.value);
-      if (err) { showError(input, err); valid = false; }
-      else { clearError(input); }
-    });
-    return valid;
-  }
-
-  // Live validation on blur
-  Object.keys(rules).forEach(function (id) {
-    var input = form.elements[id] || document.getElementById(id);
-    if (!input) return;
-    input.addEventListener('blur', function () {
-      var err = getError(id, input.value);
-      if (err) showError(input, err);
-      else clearError(input);
-    });
-    input.addEventListener('input', function () {
-      if (input.classList.contains('is-error')) {
-        var err = getError(id, input.value);
-        if (!err) clearError(input);
-      }
-    });
-  });
-
-  form.addEventListener('submit', function (e) {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (!validateAll()) return;
 
-    // Show loading state
-    submitBtn.classList.add('loading');
-    submitBtn.disabled = true;
+    const btn = form.querySelector('button[type="submit"]')
+      || form.querySelector('.submit-btn')
+      || form.querySelector('button');
 
-    var formData = new FormData(form);
-    var action = form.getAttribute('action');
+    const successMsg = document.querySelector('#email-success')
+      || document.querySelector('.success-message')
+      || document.querySelector('.form-success');
 
-    fetch(action, {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    })
-      .then(function (res) {
-        if (res.ok) {
-          showSuccess();
-        } else {
-          return res.json().then(function (data) {
-            throw new Error(data.error || 'Submission failed. Please try again.');
-          });
-        }
-      })
-      .catch(function (err) {
-        submitBtn.classList.remove('loading');
-        submitBtn.disabled = false;
-        // Show a generic error near the button
-        var errMsg = err && err.message ? err.message : 'Something went wrong. Please try again.';
-        var existingErr = form.querySelector('.form-submit-error');
-        if (!existingErr) {
-          var errDiv = document.createElement('p');
-          errDiv.className = 'form-error form-submit-error';
-          errDiv.style.textAlign = 'center';
-          errDiv.style.marginTop = '0.5rem';
-          errDiv.textContent = errMsg;
-          submitBtn.insertAdjacentElement('afterend', errDiv);
-        } else {
-          existingErr.textContent = errMsg;
-        }
+    // Loading state
+    const originalText = btn.textContent;
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+
+    // Collect form data
+    const data = {
+      fullName: form.querySelector('[name="fullName"]')?.value
+        || form.querySelector('[name="name"]')?.value || '',
+      companyName: form.querySelector('[name="companyName"]')?.value
+        || form.querySelector('[name="company"]')?.value || '',
+      email: form.querySelector('[name="email"]')?.value || '',
+      phone: form.querySelector('[name="phone"]')?.value || '',
+      campaignType: form.querySelector('[name="campaignType"]')?.value
+        || form.querySelector('[name="campaign"]')?.value || '',
+      budget: form.querySelector('[name="budget"]')?.value || '',
+      message: form.querySelector('[name="message"]')?.value || ''
+    };
+
+    try {
+      const response = await fetch(N8N_WEBHOOK, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
       });
-  });
 
-  function showSuccess() {
-    form.style.display = 'none';
-    successEl.hidden = false;
-    successEl.focus();
-  }
-}
+      if (response.ok) {
+        // Success state
+        btn.textContent = '✓ Message Sent!';
+        btn.style.background = '#4CAF50';
+        btn.style.opacity = '1';
+
+        if (successMsg) {
+          successMsg.style.display = 'block';
+          successMsg.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        form.reset();
+
+        // Reset button after 5 seconds
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.disabled = false;
+          btn.style.background = '';
+          btn.style.opacity = '1';
+        }, 5000);
+
+      } else {
+        throw new Error('Server error');
+      }
+
+    } catch (error) {
+      // Error state
+      btn.textContent = 'Failed — Try Again';
+      btn.style.background = '#ff4444';
+      btn.style.opacity = '1';
+      btn.disabled = false;
+
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = '';
+      }, 4000);
+    }
+  });
+})();
 
 /* ── 10. SCROLL REVEAL ── */
 function initScrollReveal() {

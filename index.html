@@ -1006,18 +1006,16 @@
 
           <!-- Form -->
           <div class="contact-form-wrapper" data-reveal>
-            <!-- ⚠️  Before deploying: replace YOUR_FORM_ID with your real Formspree endpoint,
-                  e.g. action="https://formspree.io/f/abcdefgh" -->
-            <form class="contact-form" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+            <form class="contact-form" id="contact-form" novalidate>
               <div class="form-row">
                 <div class="form-group">
                   <label for="full-name">Full Name <span class="required" aria-hidden="true">*</span></label>
-                  <input type="text" id="full-name" name="full_name" placeholder="John Doe" required autocomplete="name" />
+                  <input type="text" id="full-name" name="fullName" placeholder="John Doe" required autocomplete="name" />
                   <span class="form-error" role="alert" aria-live="polite"></span>
                 </div>
                 <div class="form-group">
                   <label for="company-name">Company Name <span class="required" aria-hidden="true">*</span></label>
-                  <input type="text" id="company-name" name="company_name" placeholder="Acme Inc." required autocomplete="organization" />
+                  <input type="text" id="company-name" name="companyName" placeholder="Acme Inc." required autocomplete="organization" />
                   <span class="form-error" role="alert" aria-live="polite"></span>
                 </div>
               </div>
@@ -1036,7 +1034,7 @@
               <div class="form-row">
                 <div class="form-group">
                   <label for="campaign-type">Campaign Type <span class="required" aria-hidden="true">*</span></label>
-                  <select id="campaign-type" name="campaign_type" required>
+                  <select id="campaign-type" name="campaignType" required>
                     <option value="" disabled selected>Select campaign type</option>
                     <option value="social-media">Social Media Ads</option>
                     <option value="video">Video Campaign</option>
